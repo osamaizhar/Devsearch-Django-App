@@ -1,8 +1,29 @@
-{% extends "main.html"%}
+{% extends "main.html" %}
 
-{% block content%}
+{% block content %}
 
-{{message}}
+<p>{{page}} 1</p>
+
+{% if number > 10 %}
+<p>Number is greater than 10</p>
+
+{% elif number == 10 %}
+<p>Number is equal to 10</p>
+
+{% else %}
+<p>Number is less than 10</p>
+{% endif %}
+
+
+<hr>
+
+<h1>Projects</h1>
+
+<ul>
+  {%for project in projects%}
+  <li>Title:<a href="{%url 'project' project.id%}">{{project.title}}</a> --- {{project.description}}</li>
+  {% endfor %}
+</ul>
 <h1>Projects Template</h1>
 <p>
   lorem Ipsum is simply dummy text of the printing and typese tting industry.

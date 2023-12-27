@@ -3,7 +3,7 @@ from . import views  # . means same file path , importing views here so we can u
 # Putting all urls related to projects here to organize code better
 
 urlpatterns = [
-    path("projects/",views.projects,name="projects"),
+    path("",views.projects,name="projects"),
     path("project/<str:pk>/",views.project,name="project")  
 ]
  
