@@ -46,3 +46,8 @@
         <app name>.apps.<main class name>
         example:
             projects.apps.ProjectsConfig
+
+# Python manage.py createsuperuser
+    Command to create superuser
+
+    
