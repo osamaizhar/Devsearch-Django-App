@@ -2,7 +2,7 @@ from django.shortcuts import render
 
 # Create your views here.
 from django.http import HttpResponse # used to return a http response 
-
+from .models import Project
 # projectList here is global
 projectsList = [
 
@@ -14,18 +14,14 @@ projectsList = [
 
 def projects(request):
     # return HttpResponse("Here are our projects")
-    page="projects"
-    number=11
-    context={"page":page,"number":number,"projects":projectsList}
+    projects=Project.objects.all()
+    context={"projects":projects}
     return render(request,"projects/projects.html",context) # rendering view from html template using render
 
 
 def project(request,pk):
     #return HttpResponse("Here are our projects "+pk)
-    projectObj=None
-    for i in projectsList:
-        if i["id"]==pk:
-            projectObj=i
+    projectObj= Project.objects.get(id=pk)
     return render(request,"projects/single-project.html",{'project':projectObj}) # we added projects/ because we have made a 
     # new file structure so that all templates related to projects app are inside the projects app as
     # projects/templates/projects

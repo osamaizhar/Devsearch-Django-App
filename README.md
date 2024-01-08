@@ -50,4 +50,6 @@
 # Python manage.py createsuperuser
     Command to create superuser
 
+# python manage.py shell
+    Command to enter shell
     

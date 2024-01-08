@@ -1,8 +1,14 @@
 {%extends "main.html"%}
 {%block content%}
 <h1>{{project.title}}</h1>
+<hr>
+{% for tag in project.tags.all %} <!--no () after this because it would not work in jinja template-->
+<span style="border:1px solid grey">{{tag}}</span>
+{% endfor %}
+<hr>
 <br>
 <p>{{project.description}}</p>
 
 {%endblock %}
 
+ 
