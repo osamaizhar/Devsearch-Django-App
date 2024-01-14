@@ -4,6 +4,9 @@ from . import views  # . means same file path , importing views here so we can u
 
 urlpatterns = [
     path("",views.projects,name="projects"),
-    path("project/<str:pk>/",views.project,name="project")  
+    path("project/<str:pk>/",views.project,name="project"),
+    path("create-project/",views.createproject,name="create-project"),
+    path("update-project/<str:pk>",views.updateproject,name="update-project"),
+    
 ]
  

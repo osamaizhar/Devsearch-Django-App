@@ -1,4 +1,6 @@
-{%extends "main.html"%}
+{%extends "main.html"%} <!--The extends tag is used to specify that this template needs a parent template.
+                            The extends tag takes one argument, which is the name of the parent template.
+                            When a child template with a parent template is requested, Django uses the parent template as a "skeleton" and fills it with content from the child template, according to the matching block tags.-->
 {%block content%}
 <h1>{{project.title}}</h1>
 <hr>
