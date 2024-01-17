@@ -57,3 +57,13 @@ def updateproject(request,pk): # pk is primary key which will be referencing the
             return redirect("projects") # will be redirected to projects url since it matches the name there
     context={"form":form}
     return render(request,"projects/project_form.html",context)
+
+# ************** DELETE ******************************************************
+
+def deleteproject(request,pk):
+    project = Project.objects.get(id=pk)
+    if request.method == "POST":
+        project.delete()
+        return redirect('projects')
+    context = {"object":project}
+    return render(request,"projects/delete_template.html",context)
