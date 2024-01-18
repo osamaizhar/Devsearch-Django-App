@@ -36,7 +36,7 @@ def createproject(request):
      
     if request.method=="POST":
         #print(request.POST)
-        form= ProjectForm(request.POST)
+        form= ProjectForm(request.POST,request.FILES) # request.FILES will access the files from the request as well
         if form.is_valid(): #.isvalid() method from django with run validation checks on the form
             form.save() # this wil create the form object
             return redirect("projects") # will be redirected to projects url since it matches the name there
@@ -51,7 +51,7 @@ def updateproject(request,pk): # pk is primary key which will be referencing the
      
     if request.method=="POST":
         #print(request.POST)
-        form= ProjectForm(request.POST,instance=project) # instance=project tells which project to update
+        form= ProjectForm(request.POST,request.FILES,instance=project) # instance=project tells which project to update
         if form.is_valid(): #.isvalid() method from django with run validation checks on the form
             form.save() # this wil create the form object
             return redirect("projects") # will be redirected to projects url since it matches the name there

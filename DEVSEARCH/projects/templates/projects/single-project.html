@@ -2,6 +2,8 @@
                             The extends tag takes one argument, which is the name of the parent template.
                             When a child template with a parent template is requested, Django uses the parent template as a "skeleton" and fills it with content from the child template, according to the matching block tags.-->
 {%block content%}
+
+<img style="max-width: 500px;" src="{{project.featured_image.url}}" alt=""> <!--accessing featured_image section in model and accessing the image url from there-->
 <h1>{{project.title}}</h1>
 <hr>
 {% for tag in project.tags.all %} <!--no () after this because it would not work in jinja template-->
