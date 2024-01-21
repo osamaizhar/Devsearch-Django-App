@@ -49,6 +49,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware', # adding middleware whitenoise so django can serve the static files
 ]
 
 ROOT_URLCONF = 'devsearch.urls'
@@ -131,6 +132,9 @@ STATICFILES_DIRS=[
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_ROOT=os.path.join(BASE_DIR,"static/images") # moves all user added media to static/images folder
+STATIC_ROOT = os.path.join(BASE_DIR,"staticfiles") # we need this folder static files so we can host them in production
+# STATIC_ROOT will provide the path to the staticfiles folder 
+# this folder will be created with django command
 
 #MEDIA_URL = "/images/"  # this will allow image to be referenced for use 
 

@@ -1,5 +1,6 @@
 # Django-Learning
 # devsearch is the root folder
+
 # Adding virtualenv 
     >>virtualenv <name of virtual env>
 # Activating Virtual Env
@@ -9,12 +10,17 @@
     >>deactivate
 # Installing requirements.txt
     >> pip install -r requirements.txt
+
+# Creating requirements.txt file
+    >> pip freeze > requirements.txt
+
 # django-admin useful commands:
     makemigrations : preps db for migrations
     migrate : Executes the migrations of makemigrations and makes the db tables
     runserver : runs the server
     startproject : creates a django project
     startapp :  creates a django app
+
 # Django migration commands
     python manage.py makemigrations
     python manage.py migrate
@@ -30,8 +36,10 @@
 
 # urls.py
     url navigation file 
+
 # wsgi
     Web server gateway interface
+
 # asgi
     Asynchronous server gateway interface
 
@@ -59,3 +67,7 @@
 # python manage.py shell
     Command to enter shell
     
+# Command to create staticfiles folder:
+    >> python manage.py collectstaticfiles
+    
+    copies all static files with organized directory to a new folder called staticfiles
