@@ -2,7 +2,7 @@
 {%block content%}
 <h1>Project Form</h1>
 
-<form action="" method="POST">
+<form action="" method="POST" enctype="multipart/form-data"> <!--enctype allows us to send files with form rather than just field data-->
     {%csrf_token%} <!--used to make sure form is not compromised-->
     {{form.as_p}} <!--.as_p wraps paragraph tags around each field making the form look better-->
     <!-- we can also output individual fields for ex:

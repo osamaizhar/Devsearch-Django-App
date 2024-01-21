@@ -1,17 +1,23 @@
 # Django-Learning
 # devsearch is the root folder
+# Adding virtualenv 
+    >>virtualenv <name of virtual env>
 # Activating Virtual Env
     >>django_app\Scripts.\activate
 
 # Deactivating Virtual Env
     >>deactivate
-
+# Installing requirements.txt
+    >> pip install -r requirements.txt
 # django-admin useful commands:
     makemigrations : preps db for migrations
     migrate : Executes the migrations of makemigrations and makes the db tables
     runserver : runs the server
     startproject : creates a django project
     startapp :  creates a django app
+# Django migration commands
+    python manage.py makemigrations
+    python manage.py migrate
 
 # Creating a django project
     django-admin startproject devsearch 

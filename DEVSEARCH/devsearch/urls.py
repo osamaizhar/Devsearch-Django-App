@@ -17,9 +17,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path , include
 
+from django.conf import settings # gives access to settings.py file
+from django.conf.urls.static import static
+
 # Moved all urls to urls.py inside of projects app folder
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("", include("projects.urls")) # this will add the urls inside projects app folder in here so django can use those urls
 ]
+
+urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
