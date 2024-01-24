@@ -1,5 +1,29 @@
 {% load static %}
-<h1>Logo</h1>
+<!-- <h1>Logo</h1>
 <img src="{% static 'images/logo.svg'%}" alt="">
-<a href="{% url 'create-project' %}"> Add Project</a> <!--create-project name must match with that of name key in urls.py-->
-<hr>
+<a href="{% url 'create-project' %}"> Add Project</a> <!--create-project name must match with that of name key in urls.py
+<hr> -->
+
+  <!-- Header Section added from body of index.html -->
+  <header class="header">
+    <div class="container container--narrow">
+      <a href="{% url 'projects'%}" class="header__logo">
+        <img src="{% static 'images/logo.svg' %}" alt="DevSearch Logo" />
+      </a>
+      <nav class="header__nav">
+        <input type="checkbox" id="responsive-menu" />
+        <label for="responsive-menu" class="toggle-menu">
+          <span>Menu</span>
+          <div class="toggle-menu__lines"></div>
+        </label>
+        <ul class="header__menu">
+          <li class="header__menuItem"><a href="">Developers</a></li>
+          <li class="header__menuItem"><a href="{% url 'projects'%}">Projects</a></li>
+          <li class="header__menuItem"><a href="">Inbox</a></li>
+          <li class="header__menuItem"><a href="{% url 'create-project' %}">Add Project</a></li>
+          <!-- <li class="header__menuItem"><a href="{% url 'create-project' %}" class="btn btn--sub">Add Project</a></li> -->
+          <li class="header__menuItem"><a href="" class="btn btn--sub">Login/Sign Up</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
