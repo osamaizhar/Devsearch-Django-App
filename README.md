@@ -1,6 +1,5 @@
 # Django-Learning
 # devsearch is the root folder
-
 # Adding virtualenv 
     >>virtualenv <name of virtual env>
 # Activating Virtual Env
@@ -20,6 +19,9 @@
     runserver : runs the server
     startproject : creates a django project
     startapp :  creates a django app
+# Django migration commands
+    python manage.py makemigrations
+    python manage.py migrate
 
 # Django migration commands
     python manage.py makemigrations
