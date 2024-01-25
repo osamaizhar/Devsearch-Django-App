@@ -2,9 +2,9 @@
 {%block content%}
 <h1>Project Form</h1>
 
-<form action="" method="POST" enctype="multipart/form-data"> <!--enctype allows us to send files with form rather than just field data-->
-    {%csrf_token%} <!--used to make sure form is not compromised-->
-    {{form.as_p}} <!--.as_p wraps paragraph tags around each field making the form look better-->
+<!-- <form action="" method="POST" enctype="multipart/form-data"> enctype allows us to send files with form rather than just field data-->
+   <!-- {%csrf_token%} used to make sure form is not compromised-->
+    <!-- {{form.as_p}} .as_p wraps paragraph tags around each field making the form look better-->
     <!-- we can also output individual fields for ex:
     {{form.title}} will only show title field in form
     
@@ -14,8 +14,30 @@
     {{field}}
     {% endfor %}
 
--->
     <input type="submit">
-</form>
+</form> -->
+
+<!-- Main Section -->
+<main class="formPage my-xl">
+    <div class="content-box">
+        <div class="formWrapper">
+            <a class="backButton" href="#"><i class="im im-angle-left"></i></a>
+            <br>
+
+            <form class="form" method="POST" enctype="multipart/form-data">
+                {%csrf_token%}
+                {%for field in form%}
+                <!-- Input:Text -->
+                <div class="form__field">
+                    <label for="formInput#text">{{field.label}} </label>
+                    {{field}}
+                </div>
+                {% endfor %}
+
+                <input class="btn btn--sub btn--lg  my-md" type="submit" value="Submit" />
+            </form>
+        </div>
+    </div>
+</main>
 
 {%endblock%}

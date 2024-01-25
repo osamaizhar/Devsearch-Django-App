@@ -10,4 +10,3 @@ urlpatterns = [
     path("delete-project/<str:pk>",views.deleteproject,name="delete-project"),
     
 ]
- 
