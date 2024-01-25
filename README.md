@@ -7,6 +7,10 @@
 
 # Deactivating Virtual Env
     >>deactivate
+
+# To Access Django Admin Panel
+    http://127.0.0.1:8000/admin/
+
 # Installing requirements.txt
     >> pip install -r requirements.txt
 
