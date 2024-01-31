@@ -24,8 +24,9 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("", include("projects.urls")) # this will add the urls inside projects app folder in here so django can use those urls
-]
+    path("projects/", include("projects.urls")), # this will add the urls inside projects app folder in here so django can use those urls
+    path('',include('users.urls')) # any route that comes to users will be passed to user app urls
+    ] # empty string is home page
 
 urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
 urlpatterns += static(settings.STATIC_URL,document_root=settings.STATIC_ROOT) # linking url to static root
