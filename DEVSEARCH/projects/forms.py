@@ -12,9 +12,9 @@ class ProjectForm(ModelForm): # this will be form for Project model"
             "tags":forms.CheckboxSelectMultiple() # to change the list of tags into check boxes
         }
         
-        def __init__(self,*args,**kwargs):
-            super(ProjectForm,self).__init__(*args,**kwargs)
-            for name,field in self.fields.items():
-                field.widget.attrs.update({'class':'input'}) # adding fronted theme class input here into django widget
-            #self.fields['title'].widget.attrs.update({"class":'input'})
-            
+    def __init__(self,*args,**kwargs):
+        super(ProjectForm,self).__init__(*args,**kwargs)
+        for name,field in self.fields.items():
+            field.widget.attrs.update({'class':'input'}) # adding fronted theme class input here into django widget
+        #self.fields['title'].widget.attrs.update({"class":'input'})
+        
