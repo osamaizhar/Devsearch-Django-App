@@ -8,6 +8,7 @@ class Profile(models.Model):
     ) # creating one to one relationship with User default model of django
     name=models.CharField(max_length=200,blank=True,null=True)
     username=models.CharField(max_length=200,blank=True,null=True)
+    location=models.CharField(max_length=200,blank=True,null=True)
     email=models.EmailField(max_length=500,blank=True,null=True)
     short_intro=models.CharField(max_length=200,blank=True,null=True)
     bio=models.TextField(blank=True,null=True)
@@ -24,4 +25,15 @@ class Profile(models.Model):
     
     def __str__(self):
         return str(self.user.username)
+    
+    
+class Skill(models.Model):
+    owner=models.ForeignKey(Profile,on_delete=models.CASCADE,null=True,blank=True)
+    name=models.CharField(max_length=200,blank=True,null=True)
+    description=models.TextField(null=True,blank=True)
+    created= models.DateTimeField(auto_now_add=True) # auto_now_add adds timestamp automatically as model instance is created
+    id=models.UUIDField(default=uuid.uuid4,unique=True,primary_key=True,editable=False)
+
+    def __str__(self):
+        return self.name
     
