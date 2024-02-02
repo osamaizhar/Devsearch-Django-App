@@ -7,5 +7,7 @@ def profiles(request):
     return render(request,'users/profiles.html',context) # context needs to be passed here so it can be used in other html templates
 
 def userProfile(request,pk):
-    return render(request,'users/user-profile.html')
+    profile= Profile.objects.get(id=pk)
+    context={'profile':profile}
+    return render(request,'users/user-profile.html',context)
 
