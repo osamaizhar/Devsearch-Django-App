@@ -19,8 +19,15 @@
   <link rel="stylesheet" href="{% static 'uikit/styles/uikit.css' %}" />
   <!-- Dev Search UI -->
   <link rel="stylesheet" href="{% static 'styles/app.css' %}" />
+  
+   <!-- Load FontAwesome according to chatgpt-->
+   {% load fontawesome_6 %}
+   {% fontawesome_6_static %}
+
 
   <title>DevSearch - Connect with Developers!</title>
+
+
 </head>
 <body>
     {% include "navbar.html"%}

@@ -42,9 +42,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'projects.apps.ProjectsConfig',
-    'users.apps.UsersConfig'   # match it with <app_name>.apps.<class name inside <app_folder>/apps.py>    
+    'users.apps.UsersConfig',   # match it with <app_name>.apps.<class name inside <app_folder>/apps.py>    
+    'fontawesome_6',
 ]
-
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

@@ -8,6 +8,8 @@ def profiles(request):
 
 def userProfile(request,pk):
     profile= Profile.objects.get(id=pk)
-    context={'profile':profile}
+    topSkills = profile.skill_set.exclude(description__exact="") # skill_set is auto created by django to reference kill_set is the manager that allows you to access all the skills related to a specific profile. It provides methods such as all(), filter(), and exclude() for querying the related skills. .exclude with remove those descriptions where the description is empty
+    otherSkills= profile.skill_set.filter(description="") # will filter out the skills where description is empty
+    context={'profile':profile,'topSkills':topSkills,'otherSkills':otherSkills}
     return render(request,'users/user-profile.html',context)
 
