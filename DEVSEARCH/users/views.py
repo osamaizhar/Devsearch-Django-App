@@ -1,6 +1,41 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
+from django.contrib.auth import login,authenticate,logout
+from django.contrib.auth.models import User
+from django.contrib import messages # for displaying messages on browser
+
 from .models import Profile # importing Profile model from models.py to get all the Profiles data
 # Create your views here.
+def loginUser(request): # can't name it login since login is a builtin function from django.contrib.auth
+    
+    if request.user.is_authenticated: # if user is authenticated don't let them see the login page 
+        return redirect('profiles')
+
+    if request.method=="POST":
+        #print(request.POST)
+        username=request.POST['username']
+        password=request.POST['password']
+
+        try:
+            user = User.objects.get(username=username)
+        except:
+            print("Username does not exist")
+            messages.error(request,"Username does not exist")
+        
+        user = authenticate(request,username=username,password=password)
+
+        if user is not None:
+            login(request,user)
+            return redirect("profiles")
+        else:
+            messages.error(request,"Username or password is incorrect dumbass")
+            
+    return render(request,"users/login_register.html")
+
+def logoutUser(request):
+    logout(request)
+    messages.error(request,"User was successfully logged out")
+    return redirect('login')
+
 def profiles(request):
     profiles=Profile.objects.all()
     context={'profiles':profiles}

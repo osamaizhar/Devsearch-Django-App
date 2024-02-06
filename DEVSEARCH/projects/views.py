@@ -3,6 +3,8 @@ from django.shortcuts import render,redirect
 from django.http import HttpResponse # used to return a http response 
 from .models import Project
 from .forms import ProjectForm
+from django.contrib.auth.decorators import login_required
+
 # projectList here is global no longer using it since data is being fetched from db
 
 # projectsList = [
@@ -31,6 +33,7 @@ def project(request,pk):
 # *************** CRUD OPS ***********************************************************
 
 # ************** CREATE ******************************************************
+@login_required(login_url="login") # login_url is where the user should be redirected if the user is not logged in
 def createproject(request):
     form = ProjectForm() # creating an object of ProjectForm class in this function
      
@@ -44,7 +47,7 @@ def createproject(request):
     return render(request,"projects/project_form.html",context)
 
 # ************** UPDATE ******************************************************
-
+@login_required(login_url="login")
 def updateproject(request,pk): # pk is primary key which will be referencing the id of a project
     project=Project.objects.get(id=pk) # using .get() to fetch project based on id
     form = ProjectForm(instance=project) # instance is the project we want to update
@@ -59,7 +62,7 @@ def updateproject(request,pk): # pk is primary key which will be referencing the
     return render(request,"projects/project_form.html",context)
 
 # ************** DELETE ******************************************************
-
+@login_required(login_url="login")
 def deleteproject(request,pk):
     project = Project.objects.get(id=pk)
     if request.method == "POST":
