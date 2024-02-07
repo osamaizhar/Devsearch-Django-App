@@ -2,11 +2,12 @@ from django.shortcuts import render,redirect
 from django.contrib.auth import login,authenticate,logout
 from django.contrib.auth.models import User
 from django.contrib import messages # for displaying messages on browser
-
 from .models import Profile # importing Profile model from models.py to get all the Profiles data
+#from django.contrib.auth.forms import UserCreationForm # no longer needed since it has been modified in forms.py as CustomUserCreationForm
+from .forms import CustomUserCreationForm
 # Create your views here.
 def loginUser(request): # can't name it login since login is a builtin function from django.contrib.auth
-    
+    page="login"    
     if request.user.is_authenticated: # if user is authenticated don't let them see the login page 
         return redirect('profiles')
 
@@ -35,6 +36,24 @@ def logoutUser(request):
     logout(request)
     messages.error(request,"User was successfully logged out")
     return redirect('login')
+
+def registerUser(request):
+    page="register"
+    form=CustomUserCreationForm() 
+    if request.method =="POST":
+        form = CustomUserCreationForm(request.POST)
+        if form.is_valid():
+            user=form.save(commit=False) # temporarily saving form as an object
+            user.username= user.username.lower() # lowercasing form username so that 2 same usernames with different casing are not created
+            user.save() # now permenantly saving the form
+            
+            messages.success(request,"User account was successfull created!")   
+            login(request,user) # logging in user 
+            return redirect("profiles") # redirecting user to profiles page
+        else:
+            messages.error(request,"An error occurred during registration")
+    context={'page':page,"form":form}
+    return render(request,"users/login_register.html",context)
 
 def profiles(request):
     profiles=Profile.objects.all()
