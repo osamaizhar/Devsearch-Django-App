@@ -1,5 +1,6 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth import login,authenticate,logout
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib import messages # for displaying messages on browser
 from .models import Profile # importing Profile model from models.py to get all the Profiles data
@@ -67,3 +68,11 @@ def userProfile(request,pk):
     context={'profile':profile,'topSkills':topSkills,'otherSkills':otherSkills}
     return render(request,'users/user-profile.html',context)
 
+
+@login_required(login_url='login')
+def userAccount(request):
+    profile=request.user.profile # getting current logged in user.profile
+    skills=profile.skill_set.all()
+    projects=profile.project_set.all()
+    context={'profile':profile,"skills":skills,"projects":projects}
+    return render(request,"users/account.html",context)
