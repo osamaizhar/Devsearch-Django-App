@@ -25,6 +25,17 @@ def createProfile(sender,instance,created,**kwargs): # sender is the model that 
             name=user.first_name
         )
 
+# this signal is required to update the User Model as soon as Profile Model is updated since Profile Model is acting as User model
+def updateUser(sender,instance, created,**kwargs):
+    profile=instance # since it is a one to one relationship between profile and user we can get user form profile via profile.user
+    user = profile.user 
+    if created==False: # checking if it's not the first time profile is created, if we don't do this step then user.save() will call createProfile and both will be stuck in infinite loop leading to recursion error
+        user.first_name=profile.name
+        user.username=profile.username
+        user.email=profile.email
+        user.save()
+
+
 def deleteUser(sender,instance,**kwargs): # it will delete the user if the profile is also deleted
     user=instance.user
     print("Instance:",instance,type(instance))
@@ -37,3 +48,4 @@ def deleteUser(sender,instance,**kwargs): # it will delete the user if the profi
 # ---------------------------- Connecting Signal without decorators---------------------------------------------------- 
 post_delete.connect(deleteUser,sender=Profile) # anytime a user is created it will trigger
 post_save.connect(createProfile,sender=User) # signal is connect with Profile model via sender param
+post_save.connect(updateUser,sender=Profile)

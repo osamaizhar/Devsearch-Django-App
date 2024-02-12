@@ -5,8 +5,9 @@ from django.contrib.auth.models import User
 from django.contrib import messages # for displaying messages on browser
 from .models import Profile # importing Profile model from models.py to get all the Profiles data
 #from django.contrib.auth.forms import UserCreationForm # no longer needed since it has been modified in forms.py as CustomUserCreationForm
-from .forms import CustomUserCreationForm
-# Create your views here.
+from .forms import CustomUserCreationForm,ProfileForm,SkillForm
+
+
 def loginUser(request): # can't name it login since login is a builtin function from django.contrib.auth
     page="login"    
     if request.user.is_authenticated: # if user is authenticated don't let them see the login page 
@@ -50,7 +51,8 @@ def registerUser(request):
             
             messages.success(request,"User account was successfull created!")   
             login(request,user) # logging in user 
-            return redirect("profiles") # redirecting user to profiles page
+            #return redirect("profiles") # redirecting user to profiles page
+            return redirect("edit-account")
         else:
             messages.error(request,"An error occurred during registration")
     context={'page':page,"form":form}
@@ -76,3 +78,56 @@ def userAccount(request):
     projects=profile.project_set.all()
     context={'profile':profile,"skills":skills,"projects":projects}
     return render(request,"users/account.html",context)
+
+@login_required(login_url='login')
+def editAccount(request):
+    profile=request.user.profile
+    form= ProfileForm(instance=profile) # instance=profile allows previous form data to be prefill in fields  Profile Form is a form that allows users to edit their profile information
+    if request.method=="POST":
+        form=ProfileForm(request.POST,request.FILES,instance=profile)
+        if form.is_valid():
+            form.save()
+            return redirect("account") # redirecting user back to account page once form is updated
+    context={"form":form}
+    return render(request,'users/profile_form.html',context)
+
+
+@login_required(login_url='login')
+def createSkill(request):
+    profile = request.user.profile # getting the owner
+    form=SkillForm() # creates instance of form when add skill button is first clicked
+    if request.method=="POST": # if submit is clicked it will have POST 
+        form= SkillForm(request.POST) # request.POST gets the actual data of form 
+        if form.is_valid():
+            skill= form.save(commit=False) 
+            skill.owner = profile
+            skill.save()
+            return redirect('account')
+
+    context={'form':form}
+    return render(request,"users/skill_form.html",context)
+
+
+@login_required(login_url='login')
+def updateSkill(request,pk):
+    profile = request.user.profile # getting the owner
+    skill= profile.skill_set.get(id=pk) # getting specific skill via id 
+    form=SkillForm(instance=skill) # creates instance of form when update skill button is first clicked
+    if request.method=="POST": # if submit is clicked it will have POST 
+        form= SkillForm(request.POST,instance=skill) # request.POST gets the actual data of form , setting instance = skill so that form is prefilled with old data 
+        if form.is_valid():
+            form.save()
+            messages.success(request,"Skill was updated successfully")
+            return redirect('account')
+    context={'form':form}
+    return render(request,"users/skill_form.html",context)
+
+def deleteSkill(request,pk):
+    profile = request.user.profile
+    skill = profile.skill_set.get(id=pk)
+    if request.method=="POST":
+        skill.delete()
+        messages.success(request,"Skill was Deleted Successfully!")
+        return redirect('account')
+    context = {'object':skill}
+    return render(request,'delete_template.html',context)

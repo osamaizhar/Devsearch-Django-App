@@ -18,3 +18,4 @@ class ProjectForm(ModelForm): # this will be form for Project model"
             field.widget.attrs.update({'class':'input'}) # adding fronted theme class input here into django widget
         #self.fields['title'].widget.attrs.update({"class":'input'})
         
+

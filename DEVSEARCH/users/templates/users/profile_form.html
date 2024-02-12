@@ -1,0 +1,35 @@
+<!-- profile_form will allow users to edit their profile_form -->
+
+{%extends 'main.html'%}     
+
+{% block content %}
+<!-- enctype is required here because we want to update image so we need file support which this will provide
+<form method="POST" action="{% url 'edit-account' %}" enctype="multipart/form-data">  
+ 
+    {{form.as_p}}
+    <input type="submit" value="Submit"/>
+</form> -->
+
+<!-- Main Section -->
+<main class="formPage my-xl">
+    <div class="content-box">
+        <div class="formWrapper">
+            <a class="backButton" href="{% url 'account' %}"><i class="fa-solid fa-arrow-left"></i></a>
+            <br>
+
+            <form class="form" method="POST" action="{% url 'edit-account' %}" enctype="multipart/form-data">
+                {%csrf_token %}
+                {% for field in form %}
+                <!-- Input:Text -->
+                <div class="form__field">
+                    <label for="formInput#text">{{field.label}}</label>
+                   {{field}}
+                </div>
+                {% endfor %}
+                <input class="btn btn--sub btn--lg  my-md" type="submit" value="Submit" />
+            </form>
+        </div>
+    </div>
+</main>
+
+{% endblock content %}
