@@ -5,6 +5,8 @@ from .models import Project,Tag
 from .forms import ProjectForm
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
+from .utils import searchProjects
+from django.core.paginator import Paginator,PageNotAnInteger,EmptyPage
 
 # projectList here is global no longer using it since data is being fetched from db
 
@@ -18,14 +20,33 @@ from django.db.models import Q
 
 def projects(request):
     # return HttpResponse("Here are our projects")
-    projects=Project.objects.all()
-    context={"projects":projects}
+    #projects=Project.objects.all()
+    projects,search_query = searchProjects(request)   
+# ---------------------------- Pagination -----------------------------------------------------------------------------
+    page=request.GET.get('page')
+    results=3
+    paginator=Paginator(projects,results)
+    #projects= paginator.page(page)
+    
+    try:
+        projects= paginator.page(page)
+    except PageNotAnInteger: # this will error from when we first arrive on the page 
+        page=1
+        projects = paginator.page(page)
+    except EmptyPage: # this will fix error for if the user goes to a page that does not exist
+        page=paginator.num_pages # getting the number of pages which should also be the num of the last page
+        projects = paginator.page(page)   # showing last page
+    
+    print("Projects:",projects)       
+    print("paginator result:" ,paginator)
+# -----------------------------------------------------------------------------------------------
+    context = {"projects":projects,"search_query":search_query,"paginator":paginator} # adding search_query to context so that users can see after searching what they searched for  
     return render(request,"projects/projects.html",context) # rendering view from html template using render
 
 
 def project(request,pk):
     #return HttpResponse("Here are our projects "+pk)
-    projectObj= Project.objects.get(id=pk)
+    projectObj= Project.objects.get(id=pk)                                             
     return render(request,"projects/single-project.html",{'project':projectObj}) # we added projects/ because we have made a 
     # new file structure so that all templates related to projects app are inside the projects app as
     # projects/templates/projects

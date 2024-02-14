@@ -6,7 +6,7 @@ from django.contrib import messages # for displaying messages on browser
 from .models import Profile # importing Profile model from models.py to get all the Profiles data
 #from django.contrib.auth.forms import UserCreationForm # no longer needed since it has been modified in forms.py as CustomUserCreationForm
 from .forms import CustomUserCreationForm,ProfileForm,SkillForm
-from django.db.models import Q # for complex queries
+#from django.db.models import Q # for complex queries
 from .utils import searchProfiles
 def loginUser(request): # can't name it login since login is a builtin function from django.contrib.auth
     page="login"    

@@ -53,9 +53,9 @@
         <div class="hero-section__search">
           <form class="form" action="#" method="get">
             <div class="form__field">
-              <label for="formInput#search">Search By Projects </label>
-              <input class="input input--text" id="formInput#search" type="text" name="text"
-                placeholder="Search by Project Title" />
+              <label for="formInput#search">Search For Projects </label>
+              <input class="input input--text" id="formInput#search" type="text" name="search_query"
+                placeholder="Search For Project" value="{{search_query}}" />
             </div>
 
             <input class="btn btn--sub btn--lg" type="submit" value="Search" />
@@ -97,18 +97,16 @@
 
     <div class="pagination">
       <ul class="container">
-        <li><a href="#" class="btn btn--disabled">&#10094; Prev</a></li>
-        <li><a href="#" class="btn btn--sub">01</a></li>
-        <li><a href="#" class="btn">02</a></li>
-        <li><a href="#" class="btn">03</a></li>
-        <li><a href="#" class="btn">04</a></li>
-        <li><a href="#" class="btn">05</a></li>
-        <li><a href="#" class="btn">06</a></li>
-        <li><a href="#" class="btn">07</a></li>
-        <li><a href="#" class="btn">08</a></li>
-        <li><a href="#" class="btn">09</a></li>
-        <li><a href="#" class="btn">10</a></li>
-        <li><a href="#" class="btn">Next &#10095;</a></li>
+        {% if project.has_previous %}
+          <li><a href="?page={{page}}" class="btn page-link"></a></li> 
+        {% endif %}
+        {% for page in paginator.page_range %}
+          {% if page == projects.number %}
+          <li><a href="?page={{page}}" class="btn page-link btn--sub">{{page}}</a></li>
+          {% else %}
+          <li><a href="?page={{page}}" class="btn page-link"> {{page}} </a></li>
+          {% endif %}
+        {% endfor %}
       </ul>
     </div>
   </main>
