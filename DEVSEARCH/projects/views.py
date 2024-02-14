@@ -1,9 +1,10 @@
 # Create your views here.
 from django.shortcuts import render,redirect
 from django.http import HttpResponse # used to return a http response 
-from .models import Project
+from .models import Project,Tag
 from .forms import ProjectForm
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 
 # projectList here is global no longer using it since data is being fetched from db
 
