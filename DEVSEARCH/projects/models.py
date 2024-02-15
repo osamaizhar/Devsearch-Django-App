@@ -24,6 +24,7 @@ class Review(models.Model):
         ('up',"Up Vote"), # first one is reference , second one is display output    
         ('down',"Down Vote")
     )
+    #owner = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True) # CASCADE here will delete the review if profile is deleted
                                                     # if SET_NULL was used here then when project is delted this project field will be set to null 
                                                     # Cascade will delete all the reviews if the project is deletedf
     project= models.ForeignKey(Project, on_delete=models.CASCADE)
@@ -32,6 +33,8 @@ class Review(models.Model):
     created= models.DateTimeField(auto_now_add=True) # auto_now_add adds timestamp automatically as model instance is created
     id= models.UUIDField(default=uuid.uuid4,unique=True,primary_key=True,editable=False)
 
+    # class Meta:
+    #     unique_together= [['owner','project']] # this will make sure that no one can leave more than one review ,meaning we cannot have more than one owner for a project
 
     def __str__(self):
         return self.value

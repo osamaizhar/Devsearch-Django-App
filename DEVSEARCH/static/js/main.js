@@ -5,15 +5,16 @@ let pageLinks = document.getElementsByClassName('page-link')
 
 //ENSURE SEARCH FORM EXISTS
 if (searchForm) {
+    console.log("page-links: ",pageLinks)
+    console.log(typeof(pageLinks))
     for (let i = 0; pageLinks.length > i; i++) {
         pageLinks[i].addEventListener('click', function (e) {
             e.preventDefault()
-
             //GET THE DATA ATTRIBUTE
             let page = this.dataset.page
 
             //ADD HIDDEN SEARCH INPUT TO FORM
-            searchForm.innerHTML += `<input value=${page} name="page" hidden/>`
+            searchForm.innerHTML += `<input value=${page} name="page" hidden />`
 
 
             //SUBMIT FORM
@@ -33,6 +34,7 @@ for (let i = 0; tags.length > i; i++) {
 
         // console.log('TAG ID:', tagId)
         // console.log('PROJECT ID:', projectId)
+  
 
         fetch('http://127.0.0.1:8000/api/remove-tag/', {
             method: 'DELETE',

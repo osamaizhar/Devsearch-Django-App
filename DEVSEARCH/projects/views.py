@@ -21,7 +21,7 @@ def projects(request):
     # return HttpResponse("Here are our projects")
     #projects=Project.objects.all()
     projects,search_query = searchProjects(request)   
-    custom_range,projects = paginateProjects(request,projects,2)
+    custom_range,projects = paginateProjects(request,projects,6)
     context = {"projects":projects,"search_query":search_query,"custom_range":custom_range} # adding search_query to context so that users can see after searching what they searched for  
     return render(request,"projects/projects.html",context) # rendering view from html template using render
 
