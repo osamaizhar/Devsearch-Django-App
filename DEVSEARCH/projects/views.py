@@ -2,11 +2,10 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse # used to return a http response 
 from .models import Project,Tag
-from .forms import ProjectForm
+from .forms import ProjectForm,ReviewForm
 from django.contrib.auth.decorators import login_required
-from django.db.models import Q
 from .utils import searchProjects,paginateProjects
-
+from django.contrib import messages
 # projectList here is global no longer using it since data is being fetched from db
 
 # projectsList = [
@@ -28,8 +27,20 @@ def projects(request):
 
 def project(request,pk):
     #return HttpResponse("Here are our projects "+pk)
-    projectObj= Project.objects.get(id=pk)                                             
-    return render(request,"projects/single-project.html",{'project':projectObj}) # we added projects/ because we have made a 
+    projectObj= Project.objects.get(id=pk)     
+    form = ReviewForm() # Getting review model form
+    # Adding functionality to save review
+    if request.method == "POST": 
+        form = ReviewForm(request.POST)
+        review = form.save(commit=False)
+        review.project = projectObj
+        review.owner = request.user.profile
+        review.save()
+        # Update project votecount
+        messages.success(request,"Your review was successfully submitted")
+        return redirect('project',pk=projectObj.id) # redirecting to refresh form after review submission    
+
+    return render(request,"projects/single-project.html",{'project':projectObj,'form':form}) # we added projects/ because we have made a 
     # new file structure so that all templates related to projects app are inside the projects app as
     # projects/templates/projects
     # root template folder will only have general templates

@@ -1,6 +1,6 @@
 from django.forms import ModelForm,widgets
 from django import forms
-from .models import Project # importing model (from class Project)
+from .models import Project , Review# importing model (from class Project)
 
 class ProjectForm(ModelForm): # this will be form for Project model"
     class Meta:
@@ -18,4 +18,18 @@ class ProjectForm(ModelForm): # this will be form for Project model"
             field.widget.attrs.update({'class':'input'}) # adding fronted theme class input here into django widget
         #self.fields['title'].widget.attrs.update({"class":'input'})
         
+class ReviewForm(ModelForm):
+    class Meta:
+        model = Review
+        fields = ['value','body']
 
+        labels = {
+            'value': "Place your vote",
+            'body': 'Add a comment with your vote'
+        }
+
+    def __init__(self,*args,**kwargs):
+        super(ReviewForm,self).__init__(*args,**kwargs)
+        for name,field in self.fields.items():
+            field.widget.attrs.update({'class':'input'}) # adding fronted theme class input here into django widget
+      
