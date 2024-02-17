@@ -49,17 +49,24 @@
                     <h5 class="project--rating">
                         {{project.vote_ratio}}% Positive Feedback ({{project.vote_total}} Vote{{project.vote_total|pluralize:"s"}} )
                         </h5>
-                    <form class="form" action="{% url 'project' project.id %}" method="POST">
-                        {% csrf_token %}
-                        {% for field in form %}
-                        <div class="form__field">
-                                <label for="{{ field.id_for_label }}">{{ field.label_tag }}</label>
-                                {{ field }}
-                                </div>
-                        {% endfor %}
-                        <input class="btn btn--sub btn--lg" type="submit" value="Submit" />
-                        </form>
-                
+                    {% if request.user.profile.id in project.reviewers %}
+                        <p> You have already submitted your review for this project  </p>
+                    {% elif request.user.profile == project.owner %}
+                        <p> You cannot review your own work </p>
+                    {% elif request.user.is_authenticated %}
+                        <form class="form" action="{% url 'project' project.id %}" method="POST">
+                            {% csrf_token %}
+                            {% for field in form %}
+                            <div class="form__field">
+                                    <label for="{{ field.id_for_label }}">{{ field.label_tag }}</label>
+                                    {{ field }}
+                                    </div>
+                            {% endfor %}
+                            <input class="btn btn--sub btn--lg" type="submit" value="Submit" />
+                            </form>
+                    {% else %}
+                     <a href="{% url 'login' %}?next={{request.path}}"> Please login to leave a review</a>
+                    {% endif %}
                     <div class="commentList">
                         {% for review in project.review_set.all %}
                         {% if review.body %}

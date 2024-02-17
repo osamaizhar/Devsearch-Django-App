@@ -36,7 +36,10 @@ def project(request,pk):
         review.project = projectObj
         review.owner = request.user.profile
         review.save()
-        # Update project votecount
+
+        # update vote 
+        projectObj.getVoteCount
+
         messages.success(request,"Your review was successfully submitted")
         return redirect('project',pk=projectObj.id) # redirecting to refresh form after review submission    
 

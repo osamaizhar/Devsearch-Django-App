@@ -71,8 +71,8 @@
             <h3>Account Login</h3>
             <p>Hello Developer, Welcome Back!</p>
         </div>
-
-        <form action="{%url 'login' %}" method="POST" class="form auth__form">
+                <!--leaving action as empty to submit get request-->
+        <form action="" method="POST" class="form auth__form">
             {% csrf_token %}
             <!-- Input: Username -->
             <div class="form__field">

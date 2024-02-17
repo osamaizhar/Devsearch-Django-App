@@ -19,6 +19,26 @@ class Project(models.Model):
     def __str__(self):
         return self.title
     
+    class Meta:
+        ordering = ['-vote_ratio',"-vote_total"]  # ordering entries based on created field by default in ascending order
+
+    @property
+    def reviewers(self):
+        queryset = self.review_set.all().values_list('owner__id',flat=True) # look at notes for explaination , basically its supposed to give me all profiles who have reviewed
+        return queryset
+
+    @property # so that getVoteCount can be used in views, @property decorator allows you to define a method that can be accessed like an attribute, providing a cleaner way to implement read-only properties.
+    def getVoteCount(self):
+        reviews = self.review_set.all()
+        upVotes = reviews.filter(value="up").count()
+        totalVotes = reviews.count()
+
+        ratio = (upVotes / totalVotes) * 100
+        self.vote_total = totalVotes
+        self.vote_ratio = ratio
+
+        self.save()
+        
 class Review(models.Model):
     VOTE_TYPE =(
         ('up',"Up Vote"), # first one is reference , second one is display output    

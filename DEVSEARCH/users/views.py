@@ -15,7 +15,7 @@ def loginUser(request): # can't name it login since login is a builtin function 
 
     if request.method=="POST":
         #print(request.POST)
-        username=request.POST['username']
+        username=request.POST['username'].lower()
         password=request.POST['password']
 
         try:
@@ -28,7 +28,7 @@ def loginUser(request): # can't name it login since login is a builtin function 
 
         if user is not None:
             login(request,user)
-            return redirect("profiles")
+            return redirect(request.GET['next'] if 'next' in request.GET else 'account') # sending user to the previous page they were on using get['next'] here
         else:
             messages.error(request,"Username or password is incorrect dumbass")
             
