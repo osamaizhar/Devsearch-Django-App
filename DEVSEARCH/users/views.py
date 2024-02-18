@@ -3,7 +3,7 @@ from django.contrib.auth import login,authenticate,logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib import messages # for displaying messages on browser
-from .models import Profile # importing Profile model from models.py to get all the Profiles data
+from .models import Profile,Message   # importing Profile model from models.py to get all the Profiles data
 #from django.contrib.auth.forms import UserCreationForm # no longer needed since it has been modified in forms.py as CustomUserCreationForm
 from .forms import CustomUserCreationForm,ProfileForm,SkillForm
 #from django.db.models import Q # for complex queries
@@ -132,9 +132,22 @@ def deleteSkill(request,pk):
         return redirect('account')
     context = {'object':skill}
     return render(request,'delete_template.html',context)
-
+  
 @login_required(login_url="login")
 def inbox(request):
-    context={}
+    profile = request.user.profile
+    messageRequests = profile.messages.all() # accessing related_name messages here to get all messages for the profile
+    unreadCount = messageRequests.filter(is_read=False).count() 
+    context={"messageRequests":messageRequests,"unreadCount":unreadCount}
     return render(request,'users/inbox.html',context)
     
+@login_required(login_url='login')
+def viewMessage(request,pk):
+    profile = request.user.profile
+    message = profile.messages.get(id=pk)
+    # adding functionality to make the message read
+    if message.is_read == False:
+        message.is_read = True 
+        message.save()
+    context = {'message': message}
+    return render(request,'users/message.html',context)

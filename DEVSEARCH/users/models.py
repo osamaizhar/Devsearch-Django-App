@@ -41,7 +41,8 @@ class Skill(models.Model):
     
 class Message(models.Model):                         # setting on_delete to SET_NULL so that receiver can still read message that was sent
     sender = models.ForeignKey(Profile,on_delete=models.SET_NULL,null=True,blank=True) 
-    recepient = models.ForeignKey(Profile,on_delete=models.SET_NULL, null = True, blank=True,related_name="messages")
+    recepient = models.ForeignKey(Profile,on_delete=models.SET_NULL, null = True, 
+    blank=True,related_name="messages") # recepient had to be given a related_name to differentiate from sender
     name = models.CharField(max_length=200,null=True,blank=True)
     email = models.EmailField(max_length=200,null=True,blank=True)
     subject = models.CharField(max_length=200,null=True,blank=True)
