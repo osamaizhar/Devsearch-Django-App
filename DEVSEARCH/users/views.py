@@ -5,9 +5,12 @@ from django.contrib.auth.models import User
 from django.contrib import messages # for displaying messages on browser
 from .models import Profile,Message   # importing Profile model from models.py to get all the Profiles data
 #from django.contrib.auth.forms import UserCreationForm # no longer needed since it has been modified in forms.py as CustomUserCreationForm
-from .forms import CustomUserCreationForm,ProfileForm,SkillForm
+from .forms import CustomUserCreationForm,ProfileForm,SkillForm,MessageForm 
 #from django.db.models import Q # for complex queries
 from .utils import searchProfiles,paginateProfiles
+
+
+
 def loginUser(request): # can't name it login since login is a builtin function from django.contrib.auth
     page="login"    
     if request.user.is_authenticated: # if user is authenticated don't let them see the login page 
@@ -139,6 +142,7 @@ def inbox(request):
     messageRequests = profile.messages.all() # accessing related_name messages here to get all messages for the profile
     unreadCount = messageRequests.filter(is_read=False).count() 
     context={"messageRequests":messageRequests,"unreadCount":unreadCount}
+    print("MESSAGE REQUESTS: ",messageRequests)
     return render(request,'users/inbox.html',context)
     
 @login_required(login_url='login')
@@ -151,3 +155,33 @@ def viewMessage(request,pk):
         message.save()
     context = {'message': message}
     return render(request,'users/message.html',context)
+
+def createMessage(request,pk):
+    recipient = Profile.objects.get(id=pk)
+    form = MessageForm()
+    # we can also test if user is authenticated instead of this
+    try:
+        sender = request.user.profile
+    except:
+        sender = None
+
+    if request.method == "POST":
+        form = MessageForm(request.POST)
+        if form.is_valid():
+            message = form.save(commit=False) 
+            message.sender = sender
+            message.recipient = recipient
+
+            if sender: # if theere is a sender then that means user is logged in and we can get these details
+                message.name = sender.name
+                message.email = sender.email
+            print("RECIPIENT AND THE MESSAGE:",recipient,message)
+
+            message.save()
+
+            messages.success(request,"Your message was Successfully sent!")
+            return redirect('user-profile',pk=recipient.id)
+ 
+    context = {'recipient':recipient,'form':form}
+    return render(request,'users/message_form.html',context)
+    
