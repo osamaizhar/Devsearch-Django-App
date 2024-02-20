@@ -4,6 +4,10 @@
 from django.db.models.signals import post_save,post_delete 
 from django.dispatch import receiver
 
+# ------------------------ Email Functionality Related imports -----------------------------------
+from django.core.mail import send_mail
+from django.conf import settings
+
 # ---------------------------- Model Imports ----------------------------------------------------    
 
 from django.contrib.auth.models import User
@@ -24,6 +28,19 @@ def createProfile(sender,instance,created,**kwargs): # sender is the model that 
             email=user.email,
             name=user.first_name
         )
+        # ---- For sending Registration Completed Successfully Email ------------------------------
+        
+        subject = "Welcome to DevSearch"
+        message = "We are glad you are here!"
+        
+        send_mail(
+            subject,
+            message,
+            settings.EMAIL_HOST_USER,
+            [profile.email],
+            fail_silently=False
+        )
+        
 
 # this signal is required to update the User Model as soon as Profile Model is updated since Profile Model is acting as User model
 def updateUser(sender,instance, created,**kwargs):
@@ -48,4 +65,4 @@ def deleteUser(sender,instance,**kwargs): # it will delete the user if the profi
 # ---------------------------- Connecting Signal without decorators---------------------------------------------------- 
 post_delete.connect(deleteUser,sender=Profile) # anytime a user is created it will trigger
 post_save.connect(createProfile,sender=User) # signal is connect with Profile model via sender param
-post_save.connect(updateUser,sender=Profile)
+post_save.connect(updateUser,sender=Profile) 
