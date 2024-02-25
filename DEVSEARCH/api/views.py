@@ -1,5 +1,6 @@
 #from django.http import JsonResponse | replaced by django rest framework
-from rest_framework.decorators import api_view # basically controls what REST methods can the view handle
+from rest_framework.decorators import api_view,permission_classes # basically controls what REST methods can the view handle
+from rest_framework.permissions import IsAuthenticated,IsAdminUser
 from rest_framework.response import Response # creates http responses 
 from .serializers import ProjectSerializer # converts complex data into format that can be easily rendered into json 
 from projects.models import Project
@@ -18,8 +19,10 @@ def getRoutes(request):
     #return JsonResponse(routes,safe=False) # for safe info look into api notes , return more than python dict
     return Response(routes) # using django restframework for response
 
-@api_view(["GET"])
+@api_view(["GET"]) 
+#@permission_classes([IsAuthenticated])
 def getProjects(request):
+    print('USER:',request.user)
     projects = Project.objects.all() 
     serializer = ProjectSerializer(projects,many=True) # many is set to true here since we will be returning many objects
     return Response(serializer.data)
