@@ -5,6 +5,9 @@
 # Activating Virtual Env
     >>django_app\Scripts.\activate
 
+# Creating Superuser
+    >>python manage.py createsuperuser
+
 # Deactivating Virtual Env
     >>deactivate
 

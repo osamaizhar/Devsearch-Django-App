@@ -26,6 +26,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("projects/", include("projects.urls")), # this will add the urls inside projects app folder in here so django can use those urls
     path('',include('users.urls')),# any route that comes to users will be passed to user app urls # empty string is home page
+    path('api/',include('api.urls')), # letting django know about api folder
 # -------------- Password Reset Configuration ---------------------------------------------------------    
     path('reset_password/',auth_views.PasswordResetView.as_view(template_name='reset_password.html'),
          name="reset_password"), # apparently we can't change these names we have to use them as is in django documentation

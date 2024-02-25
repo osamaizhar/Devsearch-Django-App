@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'projects.apps.ProjectsConfig',
     'users.apps.UsersConfig',   # match it with <app_name>.apps.<class name inside <app_folder>/apps.py>    
     'fontawesome_6',
+    'rest_framework', # connecting django restframework 
 ]
 
 MIDDLEWARE = [
